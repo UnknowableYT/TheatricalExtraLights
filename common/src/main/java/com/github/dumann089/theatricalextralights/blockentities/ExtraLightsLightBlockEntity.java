@@ -139,6 +139,25 @@ public abstract class ExtraLightsLightBlockEntity extends BaseDMXConsumerLightBl
                 : tag.contains("mountRoll") ? tag.getFloat("mountRoll") : 0.0F;
     }
 
+    /**
+     * Lit la personnalite Profile 16 bit dans {@code state} et pousse le resultat dans les
+     * champs de base (intensite, RGB, focus, pan, tilt). Retourne true si quelque chose a change.
+     */
+    protected boolean consumeProfileHead(byte[] values, com.github.dumann089.theatricalextralights.util.ProfileHeadState state) {
+        int _pi = intensity, _pr = red, _pg = green, _pb = blue, _pf = focus, _pp = pan, _pt = tilt;
+        boolean changed = state.consume(values);
+        intensity = state.intensity8();
+        int colour = state.staticColour();
+        red = (colour >> 16) & 0xFF;
+        green = (colour >> 8) & 0xFF;
+        blue = colour & 0xFF;
+        focus = state.getFocusRaw(values);
+        pan = state.getPanInt();
+        tilt = state.getTiltInt();
+        return changed || intensity != _pi || red != _pr || green != _pg || blue != _pb
+                || focus != _pf || pan != _pp || tilt != _pt;
+    }
+
     /** Capture les prev* serveur avant lecture DMX. Retourne true si prev* étaient en retard. */
     protected boolean beginDmxUpdate() {
         return storePrev();
