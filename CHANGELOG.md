@@ -3,7 +3,7 @@
 ## 1.4.11 (mc 1.20.1)
 
 ### Gobo moving heads
-- New **28ch - Profile 16bit** personality on the 8 gobo heads: shutter/strobe (strobe, pulse, random), 16-bit dimmer, CMY, 9-slot colour wheel with continuous rotation, gobo wheel and rotation, 3-facet prism with indexed or continuous rotation, frost, zoom, focus, 16-bit pan/tilt, pan/tilt speed, framing shutters.
+- New **27ch - Profile 16bit** personality on the 8 gobo heads: mechanical shutter, 16-bit dimmer, RGB, gobo wheel and rotation, 3-facet prism with indexed or continuous rotation, frost, zoom, focus, 16-bit pan/tilt, pan/tilt speed, framing shutters.
 - Heads now travel to their target with a motor model (720 to 25 deg/s with easing) instead of jumping; the speed channel sets the pace, 0 = tracking.
 - Prism splits the volumetric beam into three facets; frost softens the projected spot.
 
@@ -12,6 +12,7 @@
 
 ### Cleanup
 - Removed the laser block entity debug logging.
+- Fixed the one-frame beam flicker on every DMX change (block entity data is now sent without a chunk rebuild).
 
 ## 1.4.10 (mc 1.20.1)
 

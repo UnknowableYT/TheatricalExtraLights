@@ -686,24 +686,19 @@ public class ExtraLightsConfigScreen extends TelScaledScreen {
         int col1 = x + 6;
         int col2 = x + 6 + half;
         int shutter = p.getShutter();
-        String shutterState = shutter < 20 ? "closed" : shutter < 50 ? "open" : shutter < 150 ? "strobe"
-                : shutter < 180 ? "open" : shutter < 230 ? "pulse" : shutter < 240 ? "open" : "random";
-        long time = blockEntity.getLevel() != null ? blockEntity.getLevel().getGameTime() : 0L;
-        int outPct = Math.round(p.intensity8() * p.shutterFactor(time, 0f) / 2.55f);
+        boolean open = p.isShutterOpen();
+        int outPct = open ? Math.round(p.intensity8() / 2.55f) : 0;
 
-        TelUi.text(g, font, Component.literal("Shutter " + shutter + " · " + shutterState), col1, y + 7,
-                shutter < 20 ? TelUi.WARN : TelUi.TEXT);
+        TelUi.text(g, font, Component.literal("Shutter " + shutter + " · " + (open ? "open" : "closed")), col1, y + 7,
+                open ? TelUi.TEXT : TelUi.WARN);
         TelUi.text(g, font, Component.literal("Dimmer " + Math.round(p.intensity8() / 2.55f) + "% · out " + outPct + "%"),
                 col2, y + 7, outPct > 0 ? TelUi.OK : TelUi.WARN);
 
-        TelUi.text(g, font, Component.literal("CMY " + p.getCyan() + " / " + p.getMagenta() + " / " + p.getYellow()),
+        TelUi.text(g, font, Component.literal("RGB " + p.getRed() + " / " + p.getGreen() + " / " + p.getBlue()),
                 col1, y + 20, TelUi.TEXT);
-        int slot = com.github.dumann089.theatricalextralights.util.ProfileHeadState.wheelSlot(p.getColorWheel());
-        String wheel = slot >= 0 ? com.github.dumann089.theatricalextralights.util.ProfileHeadState.WHEEL_NAMES[slot] : "rotating";
-        TelUi.text(g, font, Component.literal("Wheel " + p.getColorWheel() + " · " + wheel), col2, y + 20, TelUi.TEXT);
-        int colour = p.colour(0f);
-        g.fill(x + w - 20, y + 19, x + w - 8, y + 29, 0xFF000000 | colour);
-        TelUi.outline(g, x + w - 20, y + 19, 12, 10, TelUi.BORDER);
+        int colour = p.staticColour();
+        g.fill(col2, y + 19, col2 + 24, y + 29, 0xFF000000 | colour);
+        TelUi.outline(g, col2, y + 19, 24, 10, TelUi.BORDER);
 
         TelUi.text(g, font, Component.literal("Prism " + (p.hasPrism() ? "in" : "out") + " · rot " + p.getPrismRotation()
                 + " · frost " + Math.round(p.getFrost() / 2.55f) + "%"), col1, y + 33, TelUi.TEXT);

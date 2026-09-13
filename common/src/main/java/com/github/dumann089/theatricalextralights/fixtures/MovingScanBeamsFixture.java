@@ -27,7 +27,7 @@ public class MovingScanBeamsFixture extends Fixture {
                     .addSlot(SharedSlots.FOCUS) // Prism Zoom
                     .addSlot(SharedSlots.FOCUS), // Prism Rotation
             FramingShutterChannels.PERSONALITY_19CH,
-            ProfileHeadChannels.PERSONALITY_28CH
+            ProfileHeadChannels.PERSONALITY_PROFILE
     );
 
     private static final ResourceLocation TILT_MODEL = new ResourceLocation(TheatricalExtraLights.MOD_ID, "block/moving_scan/moving_scan_tilt");

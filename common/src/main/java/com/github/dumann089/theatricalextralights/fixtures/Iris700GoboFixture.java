@@ -28,7 +28,7 @@ public class Iris700GoboFixture extends Fixture {
                     .addSlot(SharedSlots.FOCUS) // Gobo Zoom
                     .addSlot(SharedSlots.FOCUS), // Gobo Rot
             FramingShutterChannels.PERSONALITY_19CH,
-            ProfileHeadChannels.PERSONALITY_28CH
+            ProfileHeadChannels.PERSONALITY_PROFILE
     );
 
     private static final ResourceLocation TILT_MODEL = new ResourceLocation(TheatricalExtraLights.MOD_ID, "block/iris700/iris700_tilt");

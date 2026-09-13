@@ -272,7 +272,6 @@ public class Iris700GoboBlockEntity extends ExtraLightsLightBlockEntity
 
     @Override
     public int getColour() {
-        if (profile.isActive() && profile.isWheelRotating()) return profile.colour(0f);
         return ((getRed() & 0xFF) << 16) | ((getGreen() & 0xFF) << 8) | (getBlue() & 0xFF);
     }
 
