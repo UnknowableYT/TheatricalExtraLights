@@ -422,6 +422,13 @@ public abstract class ExtraLightsLightBlockEntity extends BaseDMXConsumerLightBl
         int savedPrevGreen = tag.contains("prevGreen") ? tag.getInt("prevGreen") : prevGreen;
         int savedPrevBlue = tag.contains("prevBlue") ? tag.getInt("prevBlue") : prevBlue;
 
+        // Cote client, la longueur du faisceau vient du raytrace local (chaque tick) : ne pas
+        // la remplacer par celle du serveur a chaque paquet DMX, sinon le faisceau saute
+        // d'une longueur a l'autre a chaque changement de valeur.
+        if (level != null && level.isClientSide && getDistance() > 0 && tag.contains("distance")) {
+            tag.putDouble("distance", getDistance());
+        }
+
         super.read(tag);
 
         if (preserveAngles) {
