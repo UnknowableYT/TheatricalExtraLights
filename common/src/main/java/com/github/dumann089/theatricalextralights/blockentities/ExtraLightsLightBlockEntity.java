@@ -15,6 +15,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import com.github.dumann089.theatricalextralights.util.BlockEntitySync;
 
 /**
  * Base DMX Extra Lights : préserve tous les prev* au sync client et les avance côté client
@@ -52,7 +53,7 @@ public abstract class ExtraLightsLightBlockEntity extends BaseDMXConsumerLightBl
         }
         if (level != null && !level.isClientSide) {
             setChanged();
-            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+            BlockEntitySync.sendData(this);
         } else if (level != null) {
             StrobeRenderHelper.markSectionDirty(getBlockPos());
         }
@@ -110,7 +111,7 @@ public abstract class ExtraLightsLightBlockEntity extends BaseDMXConsumerLightBl
             return;
         }
         setChanged();
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        BlockEntitySync.sendData(this);
     }
 
     private void writeMountTransform(CompoundTag tag) {
@@ -184,7 +185,7 @@ public abstract class ExtraLightsLightBlockEntity extends BaseDMXConsumerLightBl
             boolean batchQueued = !hasExtraDmxChannelsBeyondBatch()
                     && TheatricalDmxFrameBridge.markDirtyIfBatchEnabled(getBlockPos());
             if (!batchQueued) {
-                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+                BlockEntitySync.sendData(this);
             }
         }
         if (valuesChanged) {
@@ -234,7 +235,7 @@ public abstract class ExtraLightsLightBlockEntity extends BaseDMXConsumerLightBl
         prevGreen = green;
         prevBlue = blue;
         setChanged();
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        BlockEntitySync.sendData(this);
     }
 
     /**
@@ -272,7 +273,7 @@ public abstract class ExtraLightsLightBlockEntity extends BaseDMXConsumerLightBl
         prevPan = qi;
         prevTilt = qt;
         setChanged();
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        BlockEntitySync.sendData(this);
     }
 
     @Override

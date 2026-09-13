@@ -24,6 +24,7 @@ import dev.imabad.theatrical.api.dmx.DMXPersonality;
 import java.util.List;
 import com.github.dumann089.theatricalextralights.fixtures.ProfileHeadChannels;
 import com.github.dumann089.theatricalextralights.util.ProfileHeadState;
+import com.github.dumann089.theatricalextralights.util.BlockEntitySync;
 
 import java.util.Arrays;
 
@@ -185,7 +186,7 @@ public class SpotXtremeGoboBlockEntity extends ExtraLightsLightBlockEntity
         if (!applyPersonality(index)) return;
         setChanged();
         if (level != null)
-            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+            BlockEntitySync.sendData(this);
     }
 
     private boolean applyPersonality(int index) {
