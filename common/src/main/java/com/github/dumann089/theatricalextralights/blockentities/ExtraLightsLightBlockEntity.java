@@ -15,6 +15,8 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 import com.github.dumann089.theatricalextralights.util.BlockEntitySync;
 
 /**
@@ -57,6 +59,24 @@ public abstract class ExtraLightsLightBlockEntity extends BaseDMXConsumerLightBl
         } else if (level != null) {
             StrobeRenderHelper.markSectionDirty(getBlockPos());
         }
+    }
+
+    /**
+     * Luminance dynamique alignee sur {@link #getIntensity()} plutot que sur le champ brut :
+     * un shutter ferme ou une cle desarmee doit aussi eteindre la lumiere Shimmer, sinon
+     * Theatrical enregistre une source sans position d'emission (le raytrace ne tourne que
+     * si getIntensity() > 0) et plante dans getLightPos.
+     */
+    @Override
+    public int getLightLuminance() {
+        return (int) (Math.max(0f, getIntensity()) / 255f * 15f);
+    }
+
+    /** Position d'emission avec repli sur le bloc si aucun raytrace n'a encore ete fait. */
+    @Override
+    public Vector3f getLightPos() {
+        BlockPos emission = getEmissionBlock();
+        return Vec3.atCenterOf(emission != null ? emission : getBlockPos()).toVector3f();
     }
 
     public float getMountOffsetX() {
