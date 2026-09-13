@@ -3,6 +3,7 @@
 ## 1.4.11 (mc 1.20.1)
 
 - Fixed a client crash with Shimmer when a Profile head had its shutter closed (dynamic light registered without an emission position).
+- Beam haze is now anchored in world space: moving a head sweeps the beam through the haze instead of dragging the haze along.
 ### Gobo moving heads
 - New **27ch - Profile 16bit** personality on the 8 gobo heads: mechanical shutter, 16-bit dimmer, RGB, gobo wheel and rotation, 3-facet prism with indexed or continuous rotation, frost, zoom, focus, 16-bit pan/tilt, pan/tilt speed, framing shutters.
 - Heads now travel to their target with a motor model (720 to 25 deg/s with easing) instead of jumping; the speed channel sets the pace, 0 = tracking.
