@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import com.github.dumann089.theatricalextralights.blockentities.interfaces.HasFramingShutters;
+import com.github.dumann089.theatricalextralights.blockentities.interfaces.HasProfileHead;
 import com.github.dumann089.theatricalextralights.blockentities.interfaces.HasPersonality;
 import com.github.dumann089.theatricalextralights.fixtures.FramingShutterChannels;
 import com.github.dumann089.theatricalextralights.util.FramingShutterState;
@@ -25,7 +26,7 @@ import com.github.dumann089.theatricalextralights.util.ProfileHeadState;
 import java.util.Arrays;
 
 public class ProSpotGoboBlockEntity extends ExtraLightsLightBlockEntity
-        implements HasGobo, HasPersonality, HasFramingShutters {
+        implements HasGobo, HasPersonality, HasFramingShutters, HasProfileHead {
 
 
     @Override
@@ -201,6 +202,7 @@ public class ProSpotGoboBlockEntity extends ExtraLightsLightBlockEntity
     // ── Personnalite Profile 16 bit ──────────────────────────────────────────
     private final ProfileHeadState profile = new ProfileHeadState();
 
+    @Override
     public ProfileHeadState getProfileHead() { return profile; }
 
     private void consumeProfilePersonality(byte[] ourValues) {

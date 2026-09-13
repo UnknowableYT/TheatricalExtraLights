@@ -262,6 +262,8 @@
   "screen.shutters.inactive": "Schieber in diesem Modus offen",
   "screen.shutters.inactive_hint": "19ch-Personality wählen, um sie zu nutzen",
   "screen.shutters.gobo_slot": "Gobo-Slot %s · %s°",
+  "screen.profile.section": "Profile 16bit (DMX live)",
+  "screen.profile.waiting": "Noch kein 28ch-DMX-Frame empfangen",
   "screen.waterjet.section": "Strahl-Einstellungen",
   "screen.waterjet.height": "Höhe",
   "screen.waterjet.thickness": "Dicke",

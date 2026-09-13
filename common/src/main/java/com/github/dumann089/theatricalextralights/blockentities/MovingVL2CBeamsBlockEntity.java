@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.github.dumann089.theatricalextralights.blockentities.interfaces.HasGobo;
 import com.github.dumann089.theatricalextralights.client.gobo.GoboLibrary;
 import com.github.dumann089.theatricalextralights.blockentities.interfaces.HasFramingShutters;
+import com.github.dumann089.theatricalextralights.blockentities.interfaces.HasProfileHead;
 import com.github.dumann089.theatricalextralights.blockentities.interfaces.HasPersonality;
 import com.github.dumann089.theatricalextralights.fixtures.FramingShutterChannels;
 import com.github.dumann089.theatricalextralights.util.FramingShutterState;
@@ -27,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Arrays;
 
-public class MovingVL2CBeamsBlockEntity extends ExtraLightsLightBlockEntity implements HasGobo, HasPersonality, HasFramingShutters {
+public class MovingVL2CBeamsBlockEntity extends ExtraLightsLightBlockEntity implements HasGobo, HasPersonality, HasFramingShutters, HasProfileHead {
 
     // --- Sistema de Caché de Gobos ---
     private static final Map<Integer, Integer> GOBO_INDEX_CACHE = new HashMap<>();
@@ -205,6 +206,7 @@ public class MovingVL2CBeamsBlockEntity extends ExtraLightsLightBlockEntity impl
     // ── Personnalite Profile 16 bit ──────────────────────────────────────────
     private final ProfileHeadState profile = new ProfileHeadState();
 
+    @Override
     public ProfileHeadState getProfileHead() { return profile; }
 
     private void consumeProfilePersonality(byte[] ourValues) {
