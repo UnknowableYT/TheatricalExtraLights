@@ -14,7 +14,7 @@
 - Profile card waiting text no longer says "28ch".
 
 ### Docs
-- New VitePress wiki under `docs/` (guides, full fixture reference, grandMA2 files), deployed to GitHub Pages; grandMA2 generator and XML files added under `tools/grandma2/`.
+- New VitePress wiki under `docs/` (guides, full fixture reference, grandMA2 files); grandMA2 generator and XML files added under `tools/grandma2/`.
 
 ## 1.4.11 (mc 1.20.1)
 

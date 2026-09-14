@@ -3,11 +3,11 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'Theatrical: Extra Lights',
   description: 'Wiki for the Theatrical: Extra Lights Minecraft mod — fixtures, DMX channel maps, guides and grandMA2 files.',
-  base: '/TheatricalExtraLights/',
+  base: '/',
   lang: 'en-US',
   lastUpdated: true,
   cleanUrls: true,
-  head: [['link', { rel: 'icon', href: '/TheatricalExtraLights/favicon.png' }]],
+  head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
     logo: '/logo.png',
     nav: [
