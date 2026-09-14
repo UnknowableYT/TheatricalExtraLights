@@ -201,8 +201,18 @@ public final class ProfileHeadState {
             boolean cw = prismRotation < 192;
             float norm = cw ? (prismRotation - 128) / 63f : (prismRotation - 192) / 63f;
             float degPerTick = Mth.lerp(norm, 0.5f, 12f) * (cw ? 1f : -1f);
-            prismAngle = (prismAngle + degPerTick) % 360f;
-            if (prismAngle < 0) prismAngle += 360f;
+            // Angle cumule sans modulo : l'interpolation prev→courant ne traverse jamais un saut
+            // 359→0. On recale les deux valeurs ensemble quand elles deviennent trop grandes.
+            prismAngle += degPerTick;
+            if (Math.abs(prismAngle) > 360000f) {
+                float shift = Math.copySign(360000f, prismAngle);
+                prismAngle -= shift;
+                prevPrismAngle -= shift;
+            }
+        } else {
+            // Mode indexe : on suit la position pour que la rotation continue reparte de la.
+            prismAngle = prismRotation / 127f * 360f;
+            prevPrismAngle = prismAngle;
         }
     }
 
