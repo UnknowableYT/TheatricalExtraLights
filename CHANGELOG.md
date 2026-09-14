@@ -5,6 +5,9 @@
 ### Gobo moving heads
 - Profile personality is now **29ch - Profile 16bit**: two new channels after the prism rotation for an **animation wheel** (11: out / flames / water / clouds / breakup, 12: indexed orientation or continuous scroll in both directions). The effect texture scrolls in front of the gate and modulates both the volumetric beam and the projected gobo. Channels 13-29 shift by two (frost, zoom, focus, pan/tilt 16 bit, speed, framing shutters).
 
+### Rendering
+- **Shadows in the beam and on the projected spot.** Blocks and entities that cross the cone now cut the light behind them: an occupancy grid of the blocks around each beam (rebuilt every half second or when the beam leaves it) plus up to 8 entity boxes are tested in both the volumetric and the gobo projector shaders. Config `beamShadows` (default on).
+
 ## 1.4.11 (mc 1.20.1)
 
 - Fixed a client crash with Shimmer when a Profile head had its shutter closed (dynamic light registered without an emission position).

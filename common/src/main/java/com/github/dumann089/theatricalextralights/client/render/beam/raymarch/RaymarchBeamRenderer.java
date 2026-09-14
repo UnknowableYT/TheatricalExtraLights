@@ -4,6 +4,7 @@ import com.github.dumann089.theatricalextralights.client.ModShaders;
 import com.github.dumann089.theatricalextralights.client.render.beam.BeamRenderData;
 import com.github.dumann089.theatricalextralights.client.render.beam.FramingShutterRender;
 import com.github.dumann089.theatricalextralights.client.render.beam.VolumetricBeamRenderer;
+import com.github.dumann089.theatricalextralights.client.render.beam.shadow.BeamShadowOccluders;
 import com.github.dumann089.theatricalextralights.util.FramingShutterState;
 import com.github.dumann089.theatricalextralights.config.TheatricalExtraLightsConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -218,6 +219,13 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
                 shader.safeGetUniform("WheelTransition").set(s.wheelTransition);
                 FramingShutterRender.applyUniforms(shader, s.shutters);
                 applyAnimationUniforms(shader, s.animation);
+                BeamShadowOccluders.Snapshot shadows = null;
+                if (TheatricalExtraLightsConfig.isBeamShadowsEnabled() && mc.level != null) {
+                    shadows = BeamShadowOccluders.get(mc.level, s.fixturePos,
+                            new Vec3(s.originX, s.originY, s.originZ), new Vec3(s.dirX, s.dirY, s.dirZ),
+                            s.scanLen, endRadius);
+                }
+                applyShadowUniforms(shader, shadows);
                 shader.safeGetUniform("Time").set(time);
                 shader.safeGetUniform("Ambient").set(daylight);
                 shader.safeGetUniform("ScreenSize").set(screenW, screenH);
@@ -243,6 +251,14 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
 
                 RenderSystem.setShaderTexture(3, s.animation != null ? s.animation.texture() : OPEN_GOBO);
                 shader.setSampler("Sampler3", RenderSystem.getShaderTexture(3));
+
+                if (shadows != null) {
+                    RenderSystem.setShaderTexture(4, shadows.textureId());
+                    shader.setSampler("Sampler4", shadows.textureId());
+                } else {
+                    RenderSystem.setShaderTexture(4, OPEN_GOBO);
+                    shader.setSampler("Sampler4", RenderSystem.getShaderTexture(4));
+                }
 
                 shader.apply();
 
@@ -271,6 +287,26 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
         shader.safeGetUniform("AnimEnabled").set(1.0f);
         shader.safeGetUniform("AnimAngle").set((float) Math.toRadians(anim.angleDeg()));
         shader.safeGetUniform("AnimOffset").set(anim.offset());
+    }
+
+    /** Uniforms des ombres : grille de blocs et boites d'entites, ou desactive si {@code snap} est null. */
+    public static void applyShadowUniforms(ShaderInstance shader, BeamShadowOccluders.Snapshot snap) {
+        if (snap == null) {
+            shader.safeGetUniform("ShadowEnabled").set(0.0f);
+            shader.safeGetUniform("OccCount").set(0.0f);
+            return;
+        }
+        shader.safeGetUniform("ShadowEnabled").set(1.0f);
+        shader.safeGetUniform("VoxelOrigin").set((float) snap.gridOrigin().x, (float) snap.gridOrigin().y, (float) snap.gridOrigin().z);
+        shader.safeGetUniform("VoxelCell").set(snap.cell());
+        shader.safeGetUniform("VoxelSize").set((float) snap.size());
+        int n = Math.min(BeamShadowOccluders.MAX_BOXES, snap.boxes().size());
+        shader.safeGetUniform("OccCount").set((float) n);
+        for (int i = 0; i < n; i++) {
+            var b = snap.boxes().get(i);
+            shader.safeGetUniform("OccMin" + i).set((float) b.minX, (float) b.minY, (float) b.minZ);
+            shader.safeGetUniform("OccMax" + i).set((float) b.maxX, (float) b.maxY, (float) b.maxZ);
+        }
     }
 
     private void drawStackedFallback(MultiBufferSource.BufferSource bufferSource, PoseStack poseStack, Camera camera) {
