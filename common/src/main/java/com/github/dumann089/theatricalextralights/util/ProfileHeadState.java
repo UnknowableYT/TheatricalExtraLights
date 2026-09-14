@@ -13,7 +13,7 @@ import net.minecraft.util.Mth;
  *  2  Dimmer (coarse)     3  Dimmer (fine)
  *  4  Red   5  Green   6  Blue
  *  7  Roue de gobos       8  Rotation du gobo
- *  9  Prisme              0-127 hors faisceau, 128-255 prisme 3 facettes
+ *  9  Prisme              0-127 hors faisceau, 128-170 3 facettes, 171-213 6 facettes, 214-255 9 facettes
  * 10  Rotation du prisme  0-127 position indexee, 128-191 CW lent→rapide, 192-255 CCW lent→rapide
  * 11  Frost               0 aucun … 255 plein
  * 12  Zoom               13  Focus
@@ -156,6 +156,14 @@ public final class ProfileHeadState {
 
     public boolean hasPrism() {
         return prism >= 128;
+    }
+
+    /** Nombre de facettes du prisme : 1 (hors faisceau), 3, 6 ou 9. */
+    public int prismFacets() {
+        if (prism < 128) return 1;
+        if (prism < 171) return 3;
+        if (prism < 214) return 6;
+        return 9;
     }
 
     /** Angle du prisme en degres (indexe ou anime). */

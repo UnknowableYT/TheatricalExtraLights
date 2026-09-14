@@ -45,6 +45,16 @@ public final class FramingShutterPreview {
      */
     public static void draw(GuiGraphics g, int x, int y, int size, FramingShutterState.Snapshot snap,
                             ResourceLocation gobo, float goboRotDeg, float uiScale) {
+        draw(g, x, y, size, snap, gobo, goboRotDeg, uiScale, 1, 0f);
+    }
+
+    /**
+     * @param prismFacets   1 = pas de prisme, sinon nombre de copies du gobo disposees en cercle
+     * @param prismAngleDeg rotation du prisme en degres
+     */
+    public static void draw(GuiGraphics g, int x, int y, int size, FramingShutterState.Snapshot snap,
+                            ResourceLocation gobo, float goboRotDeg, float uiScale,
+                            int prismFacets, float prismAngleDeg) {
         float cx = x + size / 2f;
         float cy = y + size / 2f;
         float radius = size / 2f - 1.5f;
@@ -53,19 +63,38 @@ public final class FramingShutterPreview {
         TelUi.outline(g, x, y, size, size, TelUi.BORDER_SOFT);
 
         // Gobo : texture tournee autour du centre, teintee couleur lampe, coupee au carre.
+        // Avec prisme : une copie par facette, decalee en cercle et tournee avec le prisme,
+        // en additif pour que les recouvrements s'eclaircissent comme sur un mur.
         if (gobo != null) {
             int inner = size - 2;
             g.enableScissor(
                     (int) Math.floor((x + 1) * uiScale), (int) Math.floor((y + 1) * uiScale),
                     (int) Math.ceil((x + 1 + inner) * uiScale), (int) Math.ceil((y + 1 + inner) * uiScale));
-            g.pose().pushPose();
-            g.pose().translate(cx, cy, 0f);
-            g.pose().mulPose(Axis.ZP.rotationDegrees(goboRotDeg));
-            g.pose().translate(-cx, -cy, 0f);
-            g.setColor(0.965f, 0.925f, 0.82f, 1.0f);
-            g.blit(gobo, x + 1, y + 1, 0, 0, inner, inner, inner, inner);
+            int facets = Math.max(1, prismFacets);
+            float spread = facets <= 1 ? 0f : radius * (facets <= 3 ? 0.30f : facets <= 6 ? 0.36f : 0.42f);
+            float tint = facets <= 1 ? 1.0f : facets <= 3 ? 0.75f : facets <= 6 ? 0.6f : 0.5f;
+            if (facets > 1) {
+                com.mojang.blaze3d.systems.RenderSystem.enableBlend();
+                com.mojang.blaze3d.systems.RenderSystem.blendFunc(
+                        com.mojang.blaze3d.platform.GlStateManager.SourceFactor.SRC_ALPHA,
+                        com.mojang.blaze3d.platform.GlStateManager.DestFactor.ONE);
+            }
+            for (int i = 0; i < facets; i++) {
+                double a = Math.toRadians(prismAngleDeg + i * 360.0 / facets);
+                float ox = (float) (Math.cos(a) * spread);
+                float oy = (float) (Math.sin(a) * spread);
+                g.pose().pushPose();
+                g.pose().translate(cx + ox, cy + oy, 0f);
+                g.pose().mulPose(Axis.ZP.rotationDegrees(goboRotDeg));
+                g.pose().translate(-cx, -cy, 0f);
+                g.setColor(0.965f * tint, 0.925f * tint, 0.82f * tint, 1.0f);
+                g.blit(gobo, x + 1, y + 1, 0, 0, inner, inner, inner, inner);
+                g.pose().popPose();
+            }
             g.setColor(1f, 1f, 1f, 1f);
-            g.pose().popPose();
+            if (facets > 1) {
+                com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
+            }
             g.disableScissor();
         }
 

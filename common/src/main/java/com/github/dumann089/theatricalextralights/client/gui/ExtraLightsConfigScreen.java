@@ -626,7 +626,11 @@ public class ExtraLightsConfigScreen extends TelScaledScreen {
         net.minecraft.resources.ResourceLocation goboTex = null;
         float goboRot = 0f;
         int goboSlot = -1;
+        int prismFacets = 1;
+        float prismAngle = 0f;
         if (blockEntity instanceof HasGobo hg && hg.getGoboLibrary() != null) {
+            prismFacets = hg.getPrismFacets();
+            prismAngle = hg.getPrismAngleDeg(minecraft != null ? minecraft.getFrameTime() : 0f);
             goboSlot = hg.getGobo();
             String custom = com.github.dumann089.theatricalextralights.util.GlobalGoboManager
                     .getCustomGobo(hg.getGoboLibrary(), goboSlot);
@@ -640,7 +644,7 @@ public class ExtraLightsConfigScreen extends TelScaledScreen {
         }
 
         int disc = SHUTTER_CARD_H - 12;
-        FramingShutterPreview.draw(g, x + 6, y + 6, disc, snap, goboTex, goboRot, uiScale);
+        FramingShutterPreview.draw(g, x + 6, y + 6, disc, snap, goboTex, goboRot, uiScale, prismFacets, prismAngle);
 
         int tx = x + 6 + disc + 10;
         int ty = y + 7;
@@ -702,7 +706,7 @@ public class ExtraLightsConfigScreen extends TelScaledScreen {
         g.fill(col2, y + 19, col2 + 24, y + 29, 0xFF000000 | colour);
         TelUi.outline(g, col2, y + 19, 24, 10, TelUi.BORDER);
 
-        TelUi.text(g, font, Component.literal("Prism " + (p.hasPrism() ? "in" : "out") + " · rot " + p.getPrismRotation()
+        TelUi.text(g, font, Component.literal("Prism " + (p.hasPrism() ? p.prismFacets() + " facets" : "out") + " · rot " + p.getPrismRotation()
                 + " · frost " + Math.round(p.getFrost() / 2.55f) + "%"), col1, y + 33, TelUi.TEXT);
         TelUi.text(g, font, Component.literal("Speed " + p.getSpeed() + (p.getSpeed() <= 2 ? " · tracking" : "")), col2, y + 33, TelUi.TEXT);
 

@@ -111,9 +111,7 @@ public class GoboGPUProjector {
 
         // Prisme (personnalite Profile) : une projection par facette, comme pour le faisceau.
         List<Vec3[]> frames = ProfileHeadRender.prismFrames(baseDir, baseU, baseV, be, partialTicks);
-        if (frames.size() > 1) {
-            intensity *= ProfileHeadRender.PRISM_INTENSITY;
-        }
+        intensity *= ProfileHeadRender.prismIntensity(frames.size());
         for (Vec3[] frame : frames) {
         final Vec3 beamDir = frame[0];
         final Vec3 axisU = frame[1];
