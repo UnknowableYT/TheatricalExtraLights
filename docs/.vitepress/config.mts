@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import fixturesSidebar from './fixtures-sidebar.json'
 
 export default defineConfig({
   title: 'Theatrical: Extra Lights',
@@ -56,21 +57,8 @@ export default defineConfig({
         }
       ],
       '/fixtures/': [
-        {
-          text: 'Fixture reference',
-          items: [
-            { text: 'Overview', link: '/fixtures/overview' },
-            { text: 'Gobo moving heads', link: '/fixtures/gobo-heads' },
-            { text: 'Moving heads & beams', link: '/fixtures/moving-heads' },
-            { text: 'Wash, spot & followspot', link: '/fixtures/wash-spot' },
-            { text: 'PARs & LED panels', link: '/fixtures/pars-panels' },
-            { text: 'Blinders & strobes', link: '/fixtures/blinders-strobes' },
-            { text: 'Lasers & effects', link: '/fixtures/lasers-effects' },
-            { text: 'Water jets', link: '/fixtures/water-jets' },
-            { text: 'Pyro & fireworks', link: '/fixtures/pyro' },
-            { text: 'Consoles, rig & misc', link: '/fixtures/consoles-misc' }
-          ]
-        }
+        { text: 'Fixture reference', items: [{ text: 'Overview', link: '/fixtures/overview' }] },
+        ...fixturesSidebar
       ]
     },
     socialLinks: [

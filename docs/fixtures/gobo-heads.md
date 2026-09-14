@@ -92,3 +92,13 @@ Shutter open, dimmer 0, RGB 255/255/255, prism out, animation out, frost 0, pan 
 - Prism copies are drawn at 75 % (3 facets), 60 % (6) or 50 % (9) of the intensity each, so total light stays plausible.
 - Frost is added to the focus of the projected spot; it does not widen the volumetric beam.
 - With the shutter closed the coloured dynamic light turns off as well.
+## Fixture pages
+
+- [Xtreme Spot (Gobos)](/fixtures/spot_xtreme_gobo)
+- [VL6C Spot (Gobos)](/fixtures/vl6c_gobo)
+- [Iris 700 Spot (Gobos)](/fixtures/iris_700_gobo)
+- [Pro Spot LX (Gobos)](/fixtures/pro_spot_gobo)
+- [Mini Scan (Gobos)](/fixtures/mini_scan_gobo)
+- [Mini Spot (Gobos)](/fixtures/mini_spot_gobo)
+- [Moving Scan (Gobos)](/fixtures/moving_scan_beams)
+- [Moving VL2 (Gobos)](/fixtures/moving_vl2c_beams)

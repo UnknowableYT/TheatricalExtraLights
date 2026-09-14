@@ -72,3 +72,13 @@ Ten tubes firing gold comets in a vertical fan.
 ## Confetti Cannon (`confetti_cannon`)
 
 **1-Channel Confetti Cannon**: 1 Fire. A high burst of confetti on trigger. Also available as a handheld item that fires where you look.
+## Fixture pages
+
+- [Firework Launcher (all presets)](/fixtures/firework_launcher)
+- [RGB Firework Launcher](/fixtures/firework_rgb_launcher)
+- [Pyro Fan — 10 Comets](/fixtures/pyro_fan)
+- [Flame Projector](/fixtures/flame_projector)
+- [Flame Thrower](/fixtures/flame_thrower)
+- [Gold Gerb (Ground Fountain)](/fixtures/gerb_gold)
+- [Flow2Jet CO₂ Cannon](/fixtures/flow2jet)
+- [Confetti Cannon](/fixtures/confetti_cannon)

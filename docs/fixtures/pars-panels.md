@@ -1,56 +1,57 @@
 # PARs & LED panels
 
-## Single-colour PARs (1 channel)
+One page per fixture, each channel explained. 51 fixtures.
 
-All of these use **1-Channel Mode**: channel 1 is intensity, the colour is fixed by the block.
-
-| Family | Colours | Registry ids |
-|---|---|---|
-| Par 1000 | white, red, blue, green, magenta, amber, orange, purple, light blue | `par1000`, `par1000_red`, `par1000_blue`, `par1000_green`, `par1000_magenta`, `par1000_amber`, `par1000_orange`, `par1000_purple`, `par1000_lightblue`, `par1000_white` |
-| Par56 | red, green, blue, orange, magenta, light blue, purple, white, warm, yellow | `par56_red` … `par56_yellow` |
-| x8 Par64 bar | red, green, blue, magenta, light blue, yellow, white, purple, warm, orange | `x8par_red` … `x8par_orange` |
-| 2x2 Par64 block | red, green, blue, magenta, light blue, purple, orange, yellow, warm, white | `a2x2par64_red` … `a2x2par64_white` |
-
-The Par56 family projects a soft wash texture; it is not DMX-controllable.
-
-## Colour-preset arrays
-
-| Fixture | Registry id |
+| Fixture | Modes |
 |---|---|
-| 2x2 Par64 (Color Preset) | `a1x1par64` |
-| 2x8 Par64 (Color Preset) | `a2x8par64` |
-| 6x3 Par64 Vertical (Color Preset) | `a6x3par64_vertical` |
-
-Ten personalities each: nine **1-channel** colour presets (Red, Green, Blue, Yellow, Orange, Purple, Magenta, Lightblue, White: channel 1 intensity) and **iRGB**, 4 channels: 1 Intensity, 2 Red, 3 Green, 4 Blue.
-
-## RGB panels and bars (4 channels)
-
-**4-Channel Mode**: 1 Intensity, 2 Red, 3 Green, 4 Blue.
-
-| Fixture | Registry id |
-|---|---|
-| LED Par | `par_led` |
-| LED Panel 2 | `led_panel_2` |
-| Big Panel 3x3 | `big_panel` |
-| Big Panel 3x2 | `big_panel2` |
-| RGB Bar | `rgb_bar` |
-| Vertical RGB Bar | `vertical_bar` |
-| Mini RGB Bar | `mini_bar` |
-| Truss 3x3 Lights | `truss_3lights` |
-
-The RGB bars glow over a distance set by `rgbBarBeamLength` in the [config file](/guide/config-file).
-
-## LED Facade (`led_facade`)
-
-A pixel-mapped wall. Right-click opens a canvas where you paint the lit pixels with a brush of 1, 2, 3 or 5 pixels, choose the **resolution** (16, 32, 64, 128 or 256), the **smoothing** (Sharp, Soft, Very soft), the universe, address and network. The footprint line reads `N px · N ch · N universe(s)`.
-
-Each lit pixel takes **4 channels** in row-major order, spilling into the next universe every 512 channels, up to `ledFacadeMaxUniverses` (default 64):
-
-| Ch | Function |
-|---|---|
-| 1 | Pixel dimmer |
-| 2 | Pixel red |
-| 3 | Pixel green |
-| 4 | Pixel blue |
-
-Map it on the console as a pixel bar or LED matrix with 4-channel RGB pixels. The facade emits one aggregated coloured light in front of the wall.
+| [Par 1000 Red](/fixtures/par1000_red) | 1-Channel Mode (1) |
+| [Par 1000 Blue](/fixtures/par1000_blue) | 1-Channel Mode (1) |
+| [Par 1000 Green](/fixtures/par1000_green) | 1-Channel Mode (1) |
+| [Par 1000 Magenta](/fixtures/par1000_magenta) | 1-Channel Mode (1) |
+| [Par 1000 Amber](/fixtures/par1000_amber) | 1-Channel Mode (1) |
+| [Par 1000 Orange](/fixtures/par1000_orange) | 1-Channel Mode (1) |
+| [Par 1000 Purple](/fixtures/par1000_purple) | 1-Channel Mode (1) |
+| [Par 1000 Lightblue](/fixtures/par1000_lightblue) | 1-Channel Mode (1) |
+| [Par 1000 White](/fixtures/par1000_white) | 1-Channel Mode (1) |
+| [Par 1000](/fixtures/par1000) | 1-Channel Mode (1) |
+| [Par56 Red](/fixtures/par56_red) | 1-Channel Mode (1) |
+| [Par56 Green](/fixtures/par56_green) | 1-Channel Mode (1) |
+| [Par56 Blue](/fixtures/par56_blue) | 1-Channel Mode (1) |
+| [Par56 Orange](/fixtures/par56_orange) | 1-Channel Mode (1) |
+| [Par56 Magenta](/fixtures/par56_magenta) | 1-Channel Mode (1) |
+| [Par56 Lightblue](/fixtures/par56_lightblue) | 1-Channel Mode (1) |
+| [Par56 Purple](/fixtures/par56_purple) | 1-Channel Mode (1) |
+| [Par56 White](/fixtures/par56_white) | 1-Channel Mode (1) |
+| [Par56 Warm](/fixtures/par56_warm) | 1-Channel Mode (1) |
+| [Par56 Yellow](/fixtures/par56_yellow) | 1-Channel Mode (1) |
+| [x8 Par64 Red](/fixtures/x8par_red) | 1-Channel Mode (1) |
+| [x8 Par64 Green](/fixtures/x8par_green) | 1-Channel Mode (1) |
+| [x8 Par64 Blue](/fixtures/x8par_blue) | 1-Channel Mode (1) |
+| [x8 Par64 Magenta](/fixtures/x8par_magenta) | 1-Channel Mode (1) |
+| [x8 Par64 Lightblue](/fixtures/x8par_lightblue) | 1-Channel Mode (1) |
+| [x8 Par64 Yellow](/fixtures/x8par_yellow) | 1-Channel Mode (1) |
+| [x8 Par64 White](/fixtures/x8par_white) | 1-Channel Mode (1) |
+| [x8 Par64 Purple](/fixtures/x8par_purple) | 1-Channel Mode (1) |
+| [x8 Par64 Warm](/fixtures/x8par_warm) | 1-Channel Mode (1) |
+| [x8 Par64 Orange](/fixtures/x8par_orange) | 1-Channel Mode (1) |
+| [2x2 Par64 Red](/fixtures/a2x2par64_red) | 1-Channel Mode (1) |
+| [2x2 Par64 Green](/fixtures/a2x2par64_green) | 1-Channel Mode (1) |
+| [2x2 Par64 Blue](/fixtures/a2x2par64_blue) | 1-Channel Mode (1) |
+| [2x2 Par64 Magenta](/fixtures/a2x2par64_magenta) | 1-Channel Mode (1) |
+| [2x2 Par64 Lightblue](/fixtures/a2x2par64_lightblue) | 1-Channel Mode (1) |
+| [2x2 Par64 Purple](/fixtures/a2x2par64_purple) | 1-Channel Mode (1) |
+| [2x2 Par64 Orange](/fixtures/a2x2par64_orange) | 1-Channel Mode (1) |
+| [2x2 Par64 Yellow](/fixtures/a2x2par64_yellow) | 1-Channel Mode (1) |
+| [2x2 Par64 Warm](/fixtures/a2x2par64_warm) | 1-Channel Mode (1) |
+| [2x2 Par64 White](/fixtures/a2x2par64_white) | 1-Channel Mode (1) |
+| [2x2 Par64 (Block/Color Preset)](/fixtures/a1x1par64) | 10 modes |
+| [2x8 Par64 (Color Preset)](/fixtures/a2x8par64) | 10 modes |
+| [6x3 Par64 Vertical (Color Preset)](/fixtures/a6x3par64_vertical) | 10 modes |
+| [LED Par](/fixtures/par_led) | 4-Channel Mode (4) |
+| [LED Panel 2](/fixtures/led_panel_2) | 4-Channel Mode (4) |
+| [Big Panel 3x3](/fixtures/big_panel) | 4-Channel Mode (4) |
+| [Big Panel 3x2](/fixtures/big_panel2) | 4-Channel Mode (4) |
+| [RGB Bar](/fixtures/rgb_bar) | 4-Channel Mode (4) |
+| [Vertical RGB Bar](/fixtures/vertical_bar) | 4-Channel Mode (4) |
+| [Mini RGB Bar](/fixtures/mini_bar) | 4-Channel Mode (4) |
+| [Truss 3x3 Lights](/fixtures/truss_3lights) | 4-Channel Mode (4) |
