@@ -8,6 +8,14 @@
 ### Rendering
 - **Shadows in the beam and on the projected spot.** Blocks and entities that cross the cone now cut the light behind them: an occupancy grid of the blocks around each beam (rebuilt every half second or when the beam leaves it) plus up to 8 entity boxes are tested in both the volumetric and the gobo projector shaders. Config `beamShadows` (default on).
 
+### Fixes
+- The **O** key (Open Configuration Menu) now opens the real settings screen instead of the empty legacy one.
+- Custom gobos larger than one network chunk are reassembled before decoding, so players fetching them from the server get the image.
+- Profile card waiting text no longer says "28ch".
+
+### Docs
+- New VitePress wiki under `docs/` (guides, full fixture reference, grandMA2 files), deployed to GitHub Pages; grandMA2 generator and XML files added under `tools/grandma2/`.
+
 ## 1.4.11 (mc 1.20.1)
 
 - Fixed a client crash with Shimmer when a Profile head had its shutter closed (dynamic light registered without an emission position).
