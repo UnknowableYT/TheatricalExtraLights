@@ -137,6 +137,10 @@ public class GoboGPUProjector {
         final ResourceLocation finalNextTexture = nextTexture;
         final float finalWheelTransition = wheelTransition;
         final FramingShutterState.Snapshot finalShutters = FramingShutterRender.snapshot(be, partialTicks);
+        final ResourceLocation animTex = be.getAnimationTexture();
+        final com.github.dumann089.theatricalextralights.client.render.beam.BeamRenderData.Animation finalAnimation =
+                animTex == null ? null : new com.github.dumann089.theatricalextralights.client.render.beam.BeamRenderData.Animation(
+                        animTex, be.getAnimationAngleDeg(), be.getAnimationOffset(partialTicks));
 
         final BlockPos finalBlockPos = be.getBlockPos();
         final int finalColor = be.getColour() == 0 ? 0xFFFFFF : be.getColour();
@@ -179,6 +183,7 @@ public class GoboGPUProjector {
                 shader.safeGetUniform("Focus").set(finalFocus);
                 shader.safeGetUniform("BaseRadius").set(finalBaseRadius);
                 FramingShutterRender.applyUniforms(shader, finalShutters);
+                com.github.dumann089.theatricalextralights.client.render.beam.raymarch.RaymarchBeamRenderer.applyAnimationUniforms(shader, finalAnimation);
 
                 if (hasOcclusion) {
                     tmpPos.set((float)(finalOcclusionPos.x - cameraPos.x), (float)(finalOcclusionPos.y - cameraPos.y), (float)(finalOcclusionPos.z - cameraPos.z), 1.0f);
@@ -223,6 +228,10 @@ public class GoboGPUProjector {
                 int nextGoboTextureId = mc.getTextureManager().getTexture(finalNextTexture).getId();
                 RenderSystem.setShaderTexture(2, nextGoboTextureId);
                 shader.setSampler("Sampler2", nextGoboTextureId);
+
+                int animTextureId = mc.getTextureManager().getTexture(finalAnimation != null ? finalAnimation.texture() : finalTexture).getId();
+                RenderSystem.setShaderTexture(3, animTextureId);
+                shader.setSampler("Sampler3", animTextureId);
 
                 shader.apply();
 

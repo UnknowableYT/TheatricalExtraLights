@@ -103,6 +103,7 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
         s.goboRotation = data.goboRotation();
         s.wheelTransition = data.wheelTransition();
         s.shutters = data.hasShutters() ? data.shutters() : null;
+        s.animation = data.hasAnimation() ? data.animation() : null;
         s.hitBlock = hitBlock;
         s.fixturePos = data.fixturePos();
         s.localOriginX = (float) data.origin().x;
@@ -216,6 +217,7 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
                 shader.safeGetUniform("GoboRotation").set(s.goboRotation);
                 shader.safeGetUniform("WheelTransition").set(s.wheelTransition);
                 FramingShutterRender.applyUniforms(shader, s.shutters);
+                applyAnimationUniforms(shader, s.animation);
                 shader.safeGetUniform("Time").set(time);
                 shader.safeGetUniform("Ambient").set(daylight);
                 shader.safeGetUniform("ScreenSize").set(screenW, screenH);
@@ -239,6 +241,9 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
                 int nextGoboTex = RenderSystem.getShaderTexture(2);
                 shader.setSampler("Sampler2", nextGoboTex);
 
+                RenderSystem.setShaderTexture(3, s.animation != null ? s.animation.texture() : OPEN_GOBO);
+                shader.setSampler("Sampler3", RenderSystem.getShaderTexture(3));
+
                 shader.apply();
 
                 Tesselator tess = Tesselator.getInstance();
@@ -253,6 +258,19 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
         } finally {
             this.activeBeamCount = 0;
         }
+    }
+
+    /** Uniforms de la roue d'animation : {@code AnimEnabled}, {@code AnimAngle}, {@code AnimOffset}. */
+    public static void applyAnimationUniforms(ShaderInstance shader, BeamRenderData.Animation anim) {
+        if (anim == null) {
+            shader.safeGetUniform("AnimEnabled").set(0.0f);
+            shader.safeGetUniform("AnimAngle").set(0.0f);
+            shader.safeGetUniform("AnimOffset").set(0.0f);
+            return;
+        }
+        shader.safeGetUniform("AnimEnabled").set(1.0f);
+        shader.safeGetUniform("AnimAngle").set((float) Math.toRadians(anim.angleDeg()));
+        shader.safeGetUniform("AnimOffset").set(anim.offset());
     }
 
     private void drawStackedFallback(MultiBufferSource.BufferSource bufferSource, PoseStack poseStack, Camera camera) {
@@ -358,6 +376,7 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
         public float goboRotation;
         public float wheelTransition;
         public FramingShutterState.Snapshot shutters;
+        public BeamRenderData.Animation animation;
         public boolean hitBlock;
         public net.minecraft.core.BlockPos fixturePos;
         public float localOriginX, localOriginY, localOriginZ;

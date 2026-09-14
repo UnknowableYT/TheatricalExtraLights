@@ -42,6 +42,25 @@ uniform vec4 BladeA;         // insertion du coin A de chaque lame, 0 (sorti) ..
 uniform vec4 BladeB;         // insertion du coin B de chaque lame
 uniform float FrameRotation; // rotation du module complet, radians
 
+// ── Animation wheel ──────────────────────────────────────────────────────────
+// Texture d'effet (flammes, eau, nuages...) qui defile devant la porte, dans le repere
+// (u,v) normalise au rayon du faisceau. Une tuile couvre le diametre de la porte.
+uniform sampler2D Sampler3;
+uniform float AnimEnabled;
+uniform float AnimAngle;   // orientation, radians
+uniform float AnimOffset;  // defilement, en tuiles
+
+float animationMask(float u, float v, float radius) {
+    if (AnimEnabled < 0.5) return 1.0;
+    float ca = cos(AnimAngle);
+    float sa = sin(AnimAngle);
+    vec2 p = vec2(u, v) / max(radius, 0.0001);
+    vec2 r = vec2(p.x * ca - p.y * sa, p.x * sa + p.y * ca);
+    vec2 uv = fract(vec2(r.x * 0.5 + AnimOffset, r.y * 0.5));
+    float a = dot(texture(Sampler3, uv).rgb, vec3(0.299, 0.587, 0.114));
+    return clamp(a, 0.0, 1.0);
+}
+
 in vec4 vertexColor;
 in vec2 texCoord0;
 
@@ -336,7 +355,7 @@ float sampleGobo(vec3 worldOffset, float zDist) {
         valB = clamp(dot(texB, vec3(0.299, 0.587, 0.114)), 0.0, 1.0);
     }
 
-    return clamp(valA + valB, 0.0, 1.0);
+    return clamp(valA + valB, 0.0, 1.0) * animationMask(u, v, projectionRadius);
 }
 
 void main() {

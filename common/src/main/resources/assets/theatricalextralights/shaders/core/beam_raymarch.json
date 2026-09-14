@@ -14,9 +14,13 @@
   "samplers": [
     { "name": "Sampler0" },
     { "name": "Sampler1" },
-    { "name": "Sampler2" }
+    { "name": "Sampler2" },
+    { "name": "Sampler3" }
   ],
   "uniforms": [
+    { "name": "AnimEnabled", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "AnimAngle", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "AnimOffset", "type": "float", "count": 1, "values": [0.0] },
     {
       "name": "ModelViewMat",
       "type": "matrix4x4",
