@@ -70,31 +70,24 @@ public final class FramingShutterPreview {
             g.enableScissor(
                     (int) Math.floor((x + 1) * uiScale), (int) Math.floor((y + 1) * uiScale),
                     (int) Math.ceil((x + 1 + inner) * uiScale), (int) Math.ceil((y + 1 + inner) * uiScale));
+            // Prisme : copies reduites disposees en cercle, comme les taches sur un mur.
             int facets = Math.max(1, prismFacets);
-            float spread = facets <= 1 ? 0f : radius * (facets <= 3 ? 0.30f : facets <= 6 ? 0.36f : 0.42f);
-            float tint = facets <= 1 ? 1.0f : facets <= 3 ? 0.75f : facets <= 6 ? 0.6f : 0.5f;
-            if (facets > 1) {
-                com.mojang.blaze3d.systems.RenderSystem.enableBlend();
-                com.mojang.blaze3d.systems.RenderSystem.blendFunc(
-                        com.mojang.blaze3d.platform.GlStateManager.SourceFactor.SRC_ALPHA,
-                        com.mojang.blaze3d.platform.GlStateManager.DestFactor.ONE);
-            }
+            float scale = facets <= 1 ? 1f : facets <= 3 ? 0.55f : facets <= 6 ? 0.45f : 0.38f;
+            float spread = facets <= 1 ? 0f : radius * (1f - scale) * 0.95f;
             for (int i = 0; i < facets; i++) {
                 double a = Math.toRadians(prismAngleDeg + i * 360.0 / facets);
                 float ox = (float) (Math.cos(a) * spread);
                 float oy = (float) (Math.sin(a) * spread);
                 g.pose().pushPose();
                 g.pose().translate(cx + ox, cy + oy, 0f);
+                g.pose().scale(scale, scale, 1f);
                 g.pose().mulPose(Axis.ZP.rotationDegrees(goboRotDeg));
                 g.pose().translate(-cx, -cy, 0f);
-                g.setColor(0.965f * tint, 0.925f * tint, 0.82f * tint, 1.0f);
+                g.setColor(0.965f, 0.925f, 0.82f, 1.0f);
                 g.blit(gobo, x + 1, y + 1, 0, 0, inner, inner, inner, inner);
                 g.pose().popPose();
             }
             g.setColor(1f, 1f, 1f, 1f);
-            if (facets > 1) {
-                com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
-            }
             g.disableScissor();
         }
 

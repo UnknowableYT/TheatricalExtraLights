@@ -686,9 +686,10 @@ public class ExtraLightsConfigScreen extends TelScaledScreen {
             return;
         }
 
-        int half = (w - 12) / 2;
+        // Colonne gauche alignee a gauche, colonne droite alignee a droite : les textes ne se
+        // chevauchent jamais quelle que soit leur longueur.
         int col1 = x + 6;
-        int col2 = x + 6 + half;
+        int right = x + w - 6;
         int shutter = p.getShutter();
         boolean open = p.isShutterOpen();
         boolean strobing = p.isShutterStrobing();
@@ -698,18 +699,20 @@ public class ExtraLightsConfigScreen extends TelScaledScreen {
 
         TelUi.text(g, font, Component.literal("Shutter " + shutter + " · " + shutterLabel), col1, y + 7,
                 (open || strobing) ? TelUi.TEXT : TelUi.WARN);
-        TelUi.text(g, font, Component.literal("Dimmer " + Math.round(p.intensity8() / 2.55f) + "% · out " + outPct + "%"),
-                col2, y + 7, outPct > 0 ? TelUi.OK : TelUi.WARN);
+        String dim = "Dimmer " + Math.round(p.intensity8() / 2.55f) + "% · out " + outPct + "%";
+        TelUi.text(g, font, Component.literal(dim), right - font.width(dim), y + 7, outPct > 0 ? TelUi.OK : TelUi.WARN);
 
-        TelUi.text(g, font, Component.literal("RGB " + p.getRed() + " / " + p.getGreen() + " / " + p.getBlue()),
-                col1, y + 20, TelUi.TEXT);
+        String rgb = "RGB " + p.getRed() + " / " + p.getGreen() + " / " + p.getBlue();
+        TelUi.text(g, font, Component.literal(rgb), col1, y + 20, TelUi.TEXT);
         int colour = p.staticColour();
-        g.fill(col2, y + 19, col2 + 24, y + 29, 0xFF000000 | colour);
-        TelUi.outline(g, col2, y + 19, 24, 10, TelUi.BORDER);
+        int swatchX = col1 + font.width(rgb) + 6;
+        g.fill(swatchX, y + 19, swatchX + 24, y + 29, 0xFF000000 | colour);
+        TelUi.outline(g, swatchX, y + 19, 24, 10, TelUi.BORDER);
+        String speed = "Speed " + p.getSpeed() + (p.getSpeed() <= 2 ? " · tracking" : "");
+        TelUi.text(g, font, Component.literal(speed), right - font.width(speed), y + 20, TelUi.TEXT);
 
         TelUi.text(g, font, Component.literal("Prism " + (p.hasPrism() ? p.prismFacets() + " facets" : "out") + " · rot " + p.getPrismRotation()
                 + " · frost " + Math.round(p.getFrost() / 2.55f) + "%"), col1, y + 33, TelUi.TEXT);
-        TelUi.text(g, font, Component.literal("Speed " + p.getSpeed() + (p.getSpeed() <= 2 ? " · tracking" : "")), col2, y + 33, TelUi.TEXT);
 
         TelUi.text(g, font, Component.literal(String.format(java.util.Locale.ROOT, "Pan %.2f° · Tilt %.2f° (16 bit)",
                 p.getTargetPan(), p.getTargetTilt())), col1, y + 46, TelUi.SUB);
