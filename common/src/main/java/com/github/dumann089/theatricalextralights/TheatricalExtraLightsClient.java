@@ -23,6 +23,9 @@ public class TheatricalExtraLightsClient {
 
 
     public static void init() {
+        // Le strobe du shutter Profile s'evalue au temps de frame, pas seulement au tick.
+        com.github.dumann089.theatricalextralights.util.ProfileHeadState.clientPartialTick =
+                () -> net.minecraft.client.Minecraft.getInstance().getFrameTime();
         ModParticleClient.registerProviders();
         ModKeybinds.register();
         ModNetworking.register();

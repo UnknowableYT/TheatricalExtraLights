@@ -9,7 +9,7 @@ import net.minecraft.util.Mth;
  * Les couteaux restent dans {@link FramingShutterState}.
  *
  * <pre>
- *  1  Shutter             0 ferme, 1-254 strobe lent→rapide, 255 ouvert
+ *  1  Shutter             0 ferme, 1-254 strobe 0.5→20 Hz, 255 ouvert
  *  2  Dimmer (coarse)     3  Dimmer (fine)
  *  4  Red   5  Green   6  Blue
  *  7  Roue de gobos       8  Rotation du gobo
@@ -29,6 +29,16 @@ public final class ProfileHeadState {
     /** Vitesse moteur max (tracking) et min, en degres par seconde. */
     private static final float MOTOR_FAST_DEG_S = 720f;
     private static final float MOTOR_SLOW_DEG_S = 25f;
+
+    /** Plage du strobe mecanique, en Hz, sur DMX 1..254. */
+    private static final float STROBE_MIN_HZ = 0.5f;
+    private static final float STROBE_MAX_HZ = 20f;
+
+    /**
+     * Fraction de tick courante cote client (temps de frame), 0 sur le serveur. Renseigne par
+     * l'init client pour que le strobe soit evalue au temps de la frame et non du tick.
+     */
+    public static volatile java.util.function.DoubleSupplier clientPartialTick = () -> 0.0;
 
     private boolean active;
 
@@ -141,17 +151,29 @@ public final class ProfileHeadState {
         return shutter >= 255;
     }
 
-    /** Strobe mecanique (1-254), de plus en plus rapide. */
+    /** Strobe mecanique (1-254). */
     public boolean isShutterStrobing() {
-        return DmxShutterStrobeHelper.isStrobing(shutter);
+        return shutter > 0 && shutter < 255;
+    }
+
+    /** Frequence du strobe en Hz pour la valeur courante (0 si ferme ou ouvert). */
+    public float strobeHz() {
+        if (!isShutterStrobing()) return 0f;
+        return STROBE_MIN_HZ + (shutter - 1) / 253f * (STROBE_MAX_HZ - STROBE_MIN_HZ);
     }
 
     /**
-     * Facteur 0-1 applique au dimmer : 0 ferme, 1-254 strobe de lent a rapide (meme loi que
-     * les blinders), 255 ouvert.
+     * Facteur 0-1 applique au dimmer : 0 ferme, 1-254 strobe de 0.5 a 20 Hz, 255 ouvert.
+     * Un {@code partialTicks} de 0 est remplace par le temps de frame client s'il est connu,
+     * pour que le strobe soit fluide au-dela de 10 Hz.
      */
     public float shutterFactor(long gameTime, float partialTicks) {
-        return DmxShutterStrobeHelper.computeEffectiveIntensity(1, shutter, gameTime, partialTicks);
+        if (shutter <= 0) return 0f;
+        if (shutter >= 255) return 1f;
+        float partial = partialTicks > 0f ? partialTicks : (float) clientPartialTick.getAsDouble();
+        double seconds = (gameTime + partial) / 20.0;
+        double phase = seconds * strobeHz();
+        return (phase - Math.floor(phase)) < 0.5 ? 1f : 0f;
     }
 
     public boolean hasPrism() {
