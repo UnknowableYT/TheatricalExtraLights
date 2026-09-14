@@ -9,7 +9,7 @@ import net.minecraft.util.Mth;
  * Les couteaux restent dans {@link FramingShutterState}.
  *
  * <pre>
- *  1  Shutter             0-127 ferme, 128-255 ouvert
+ *  1  Shutter             0 ferme, 1-254 strobe lent→rapide, 255 ouvert
  *  2  Dimmer (coarse)     3  Dimmer (fine)
  *  4  Red   5  Green   6  Blue
  *  7  Roue de gobos       8  Rotation du gobo
@@ -136,13 +136,22 @@ public final class ProfileHeadState {
         return (red << 16) | (green << 8) | blue;
     }
 
+    /** Ouvert en continu (255). */
     public boolean isShutterOpen() {
-        return shutter >= 128;
+        return shutter >= 255;
     }
 
-    /** Facteur 0-1 applique au dimmer : shutter mecanique, ouvert ou ferme. */
+    /** Strobe mecanique (1-254), de plus en plus rapide. */
+    public boolean isShutterStrobing() {
+        return DmxShutterStrobeHelper.isStrobing(shutter);
+    }
+
+    /**
+     * Facteur 0-1 applique au dimmer : 0 ferme, 1-254 strobe de lent a rapide (meme loi que
+     * les blinders), 255 ouvert.
+     */
     public float shutterFactor(long gameTime, float partialTicks) {
-        return isShutterOpen() ? 1f : 0f;
+        return DmxShutterStrobeHelper.computeEffectiveIntensity(1, shutter, gameTime, partialTicks);
     }
 
     public boolean hasPrism() {

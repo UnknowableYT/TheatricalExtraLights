@@ -687,10 +687,12 @@ public class ExtraLightsConfigScreen extends TelScaledScreen {
         int col2 = x + 6 + half;
         int shutter = p.getShutter();
         boolean open = p.isShutterOpen();
-        int outPct = open ? Math.round(p.intensity8() / 2.55f) : 0;
+        boolean strobing = p.isShutterStrobing();
+        int outPct = (open || strobing) ? Math.round(p.intensity8() / 2.55f) : 0;
+        String shutterLabel = open ? "open" : strobing ? "strobe " + Math.round(shutter / 2.54f) + "%" : "closed";
 
-        TelUi.text(g, font, Component.literal("Shutter " + shutter + " · " + (open ? "open" : "closed")), col1, y + 7,
-                open ? TelUi.TEXT : TelUi.WARN);
+        TelUi.text(g, font, Component.literal("Shutter " + shutter + " · " + shutterLabel), col1, y + 7,
+                (open || strobing) ? TelUi.TEXT : TelUi.WARN);
         TelUi.text(g, font, Component.literal("Dimmer " + Math.round(p.intensity8() / 2.55f) + "% · out " + outPct + "%"),
                 col2, y + 7, outPct > 0 ? TelUi.OK : TelUi.WARN);
 
