@@ -27,6 +27,8 @@ Each launcher is a fixed effect: comets, long comets, peonies, willows, chrysant
 
 ## Flames, gerbs, confetti
 
+![Gold confetti burst on a stage](/images/pyro-confetti.png)
+
 - **Flame projector**: continuous flame column driven by intensity.
 - **Flame thrower**: directed jet with pan.
 - **Gold gerb**: stage fountain.

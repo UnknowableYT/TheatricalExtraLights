@@ -4,6 +4,8 @@
 
 Spot on a stand, meant to be driven by the [Followspot Console](/guide/followspot).
 
+![Followspot beam on a performer](/images/followspot-stage.png)
+
 - The console's operator mode aims this fixture with the mouse; presets store pan, tilt, intensity and focus.
 
 ## 7-Channel Mode (7 ch)

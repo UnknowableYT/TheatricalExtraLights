@@ -2,6 +2,8 @@
 
 All pyro fixtures are in the **Theatrical: Pyro** creative tab. Every launcher, the RGB launcher, the gerb, the flame projector, the flame thrower and the confetti cannon carry a **safety arm**: disarmed, they read DMX but never fire. See [Pyro & safety arm](/guide/pyro).
 
+![Gold confetti burst on a stage](/images/pyro-confetti.png)
+
 ## Firework launchers (3-Channel Firework)
 
 One block per effect, about 150 presets, all with the same personality:

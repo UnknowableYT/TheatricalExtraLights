@@ -73,7 +73,7 @@ export default defineConfig({
     },
     footer: {
       message: 'Released under the MIT License. Theatrical: Extra Lights is an addon for Theatrical.',
-      copyright: 'Theatrical: Extra Lights contributors'
+      copyright: 'Theatrical: Extra Lights contributors · Made by <a href="https://nailec.fr" target="_blank" rel="noopener noreferrer">nailec</a> <span class="nailec-heart" aria-hidden="true">♥</span>'
     },
     outline: [2, 3]
   }

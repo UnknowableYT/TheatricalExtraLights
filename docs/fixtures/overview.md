@@ -2,6 +2,8 @@
 
 Every block Extra Lights adds, grouped by family, with its DMX personalities and channel tables. All registry ids are prefixed `theatricalextralights:`. Values are 0 to 255 unless noted.
 
+![Concert stage with Extra Lights](/images/overview-stage.png)
+
 ## Conventions
 
 | Function | Decoding |

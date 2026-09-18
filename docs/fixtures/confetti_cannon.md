@@ -4,6 +4,8 @@
 
 High confetti burst. Also exists as a handheld item that fires where you look.
 
+![Gold confetti burst on a stage](/images/pyro-confetti.png)
+
 - Carries a **safety arm**: disarmed in its screen, it reads DMX but never fires. See [Pyro & safety arm](/guide/pyro).
 - Found in the **Theatrical: Pyro** creative tab.
 

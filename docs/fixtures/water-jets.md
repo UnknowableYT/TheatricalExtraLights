@@ -2,6 +2,8 @@
 
 One page per fixture, each channel explained. 17 fixtures.
 
+![Water jet config screen](/images/water-jet-screen.png)
+
 | Fixture | Modes |
 |---|---|
 | [Water Jet (25m)](/fixtures/water_jet) | 1-Channel Mode (1) |

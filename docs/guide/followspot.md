@@ -2,6 +2,8 @@
 
 The **Followspot Console** is an operator desk. It links to one 7-channel fixture on a Theatrical network, gives you level sliders for it, and a **Take control** mode that places your camera at the lens so you aim with the mouse like a real followspot operator. Your player never moves; only the camera does.
 
+![Followspot beam on a performer](/images/followspot-stage.png)
+
 ![Followspot console screen](/images/followspot-screen.png)
 
 ## Linking a fixture

@@ -17,7 +17,7 @@ If nothing reacts later, check the Art-Net Interface first: wrong universe or a 
 
 Open the creative inventory, tab **Theatrical: Extra Lights**, and place a gobo moving head, for example the **Iris 700 Spot (Gobos)**. Fixtures can stand on the floor or hang from a truss: place them against the underside of a truss block and they flip automatically.
 
-![Placing a gobo head under a truss](/images/quickstart-place.png)
+![Moving head hung under a truss](/images/quickstart-place.png)
 
 ## 3. Patch it
 

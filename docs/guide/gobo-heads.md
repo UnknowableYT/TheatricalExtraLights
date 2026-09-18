@@ -41,6 +41,8 @@ The blades clip both the volumetric beam and the projected spot, and their edge 
 
 The **Gobo & framing shutters** card in the config screen shows a live front view: current gobo with its rotation, blade positions in percent, and frame rotation.
 
+![Gobo and framing shutters card](/images/gobo-framing-card.png)
+
 ## Profile 16bit mode (29ch)
 
 ### Shutter and strobe
