@@ -58,7 +58,8 @@ Theatrical places a light source where each beam lands. With *Spot follows cone*
 ## Performance tips
 
 - Set **Max beams per frame** to the number of fixtures you actually light at once; the far ones are skipped first.
-- Beams farther than about 50 blocks automatically march with fewer samples.
+- Beams **farther than about 50 blocks** automatically march with fewer samples.
+- Beams **close to the camera** (inside or within a few blocks of the cone) also drop samples, down to 3–4 per ray. The cone fills the screen there, so cost is per pixel; brightness stays the same because each step is longer.
 - Prefer a long throw and a small **Beam range** over many wide beams: the cost is per pixel covered.
 - On a laptop, Medium quality with haze at 0.4 is a good compromise.
 - Pyro has its own budgets in the [config file](/guide/config-file#pyro).

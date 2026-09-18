@@ -10,7 +10,7 @@ Edit the file while the game is closed, or use the settings screen, which writes
 |---|---|---|---|
 | `volumetricBeamEnabled` | `true` | | Master switch for volumetric beams. |
 | `volumetricEngine` | `"RAYMARCH"` | `RAYMARCH`, `LEGACY_SLICES` | Beam engine. Anything else falls back to raymarch. |
-| `raymarchQuality` | `"HIGH"` | `LOW`, `MEDIUM`, `HIGH`, `ULTRA` | Samples per ray: 8, 16, 24, 32. |
+| `raymarchQuality` | `"HIGH"` | `LOW`, `MEDIUM`, `HIGH`, `ULTRA` | Samples per ray: 8, 16, 24, 32. Automatically reduced when the camera is close to a beam or the beam is far. |
 | `raymarchAnisotropy` | `0.55` | −0.9 to 0.9 | Forward versus back scattering of the haze. |
 | `raymarchDustAmount` | `0.55` | 0 to 1 | Amount of haze structure in the beam (*Haze* in the screen). |
 | `raymarchMaxBeamsPerFrame` | `128` | 1 to 128 in the screen | Beam budget per frame. |

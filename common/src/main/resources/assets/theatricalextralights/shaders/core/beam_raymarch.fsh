@@ -130,7 +130,8 @@ float shadowFactor(vec3 wp, vec3 lightW, float startOffset) {
     float start = min(startOffset, len * 0.5);
     float span = len - start - VoxelCell * 0.75;   // on s'arrete avant la cellule de la source
     if (span <= 0.0) return 1.0;
-    int steps = int(clamp(ceil(span / (VoxelCell * 0.9)), 2.0, 32.0));
+    float shadowCap = StepCount <= 8 ? 12.0 : 32.0;
+    int steps = int(clamp(ceil(span / (VoxelCell * 0.9)), 2.0, shadowCap));
     float ds = span / float(steps);
     vec3 p = wp + dirL * (start + ds * 0.5);
     for (int i = 0; i < 32; i++) {
@@ -475,13 +476,17 @@ void main() {
         discard;
     }
 
-    int steps = clamp(
-        StepCount,
-        4,
-        48
-    );
-
     float marchLen = tExit - tEnter;
+
+    int steps = clamp(StepCount, 4, 48);
+    // Close-up LOD: if the cone starts near the camera it fills the view.
+    // Fewer samples, larger dt — single-scatter energy stays the same.
+    float closeLod = mix(0.28, 1.0, smoothstep(0.75, 14.0, tEnter));
+    float longLod = mix(1.0, 0.55, smoothstep(8.0, 32.0, marchLen));
+    float lod = min(closeLod, longLod);
+    int minSteps = tEnter < 1.5 ? 3 : 4;
+    steps = max(minSteps, int(float(steps) * lod + 0.5));
+
     float dt = marchLen / float(steps);
     float t = tEnter + dt * ign(gl_FragCoord.xy);
 
@@ -650,9 +655,9 @@ void main() {
 
             hp += (warp - 0.5) * 0.9;
 
-            float billow = fbm(hp);
+            float billow = steps <= 6 ? vnoise(hp) : fbm(hp);
 
-            float wisp = vnoise(
+            float wisp = steps <= 6 ? 0.5 : vnoise(
                 wpos * 3.1 +
                 wind * 2.4
             );

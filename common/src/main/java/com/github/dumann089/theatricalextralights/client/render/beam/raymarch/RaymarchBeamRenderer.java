@@ -168,13 +168,7 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
                     continue;
                 }
 
-                double distSq = dx * dx + dy * dy + dz * dz;
-                int beamSteps = steps;
-                if (distSq > 96.0 * 96.0) {
-                    beamSteps = Math.max(6, steps / 3);
-                } else if (distSq > 48.0 * 48.0) {
-                    beamSteps = Math.max(8, steps / 2);
-                }
+                int beamSteps = lodStepCount(steps, s, camPos);
 
                 ShaderInstance shader = ModShaders.beamRaymarchShader;
                 if (shader == null) {
@@ -329,6 +323,43 @@ public class RaymarchBeamRenderer extends LazyRenderers.LazyRenderer {
             }
             drawOrder[j + 1] = key;
         }
+    }
+
+    /**
+     * Quality setting, then distance LOD. Close to the cone the fullscreen pass
+     * covers most pixels so samples drop; far beams drop too because they are thin.
+     */
+    private static int lodStepCount(int qualitySteps, BeamSlot s, Vec3 camPos) {
+        double ox = camPos.x - (double) s.originX;
+        double oy = camPos.y - (double) s.originY;
+        double oz = camPos.z - (double) s.originZ;
+        double along = ox * (double) s.dirX + oy * (double) s.dirY + oz * (double) s.dirZ;
+        double t = Math.max(0.0, Math.min((double) s.scanLen, along));
+        double px = s.originX + s.dirX * t - camPos.x;
+        double py = s.originY + s.dirY * t - camPos.y;
+        double pz = s.originZ + s.dirZ * t - camPos.z;
+        double radial = Math.sqrt(px * px + py * py + pz * pz);
+        float scale = Math.max(s.widthScale, s.heightScale);
+        double radius = Math.max((double) s.baseRadius, t * (double) Math.max(s.tanHalfAngle, 1.0e-4f)) * (double) scale;
+        double distToVolume = Math.max(0.0, radial - radius);
+
+        int beamSteps = qualitySteps;
+        if (distToVolume < 2.0) {
+            beamSteps = Math.max(4, qualitySteps / 4);
+        } else if (distToVolume < 8.0) {
+            beamSteps = Math.max(4, (qualitySteps * 2) / 5);
+        }
+
+        double mx = s.originX + s.dirX * s.scanLen * 0.5 - camPos.x;
+        double my = s.originY + s.dirY * s.scanLen * 0.5 - camPos.y;
+        double mz = s.originZ + s.dirZ * s.scanLen * 0.5 - camPos.z;
+        double distSq = mx * mx + my * my + mz * mz;
+        if (distSq > 96.0 * 96.0) {
+            beamSteps = Math.min(beamSteps, Math.max(6, qualitySteps / 3));
+        } else if (distSq > 48.0 * 48.0) {
+            beamSteps = Math.min(beamSteps, Math.max(8, qualitySteps / 2));
+        }
+        return beamSteps;
     }
 
     private static double distSq(BeamSlot s, Vec3 camPos) {
